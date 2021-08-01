@@ -1,0 +1,5 @@
+.container
+	ul.article-list
+		- @articles.each do |article|
+			li.article-item 
+				= link_to article.title, article_path(article)
