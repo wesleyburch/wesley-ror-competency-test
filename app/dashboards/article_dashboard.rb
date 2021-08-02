@@ -13,6 +13,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     id: Field::Number,
     title: Field::String,
     content: Field::Text,
+    archived: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -27,6 +28,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     category
     id
     title
+    archived
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,6 +39,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     id
     title
     content
+    archived
     created_at
     updated_at
   ].freeze
@@ -49,6 +52,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     category
     title
     content
+    archived
   ].freeze
 
   # COLLECTION_FILTERS

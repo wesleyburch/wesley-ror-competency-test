@@ -11,13 +11,15 @@ class UserDashboard < Administrate::BaseDashboard
     articles: Field::HasMany,
     id: Field::Number,
     email: Field::String,
-    encrypted_password: Field::String,
+    password: Field::String,
+    password_confirmation: Field::String,
     reset_password_token: Field::String,
     reset_password_sent_at: Field::DateTime,
     remember_created_at: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     roles: Field::String,
+    archived: Field::Boolean,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -29,7 +31,7 @@ class UserDashboard < Administrate::BaseDashboard
     articles
     id
     email
-    encrypted_password
+    archived
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -38,26 +40,35 @@ class UserDashboard < Administrate::BaseDashboard
     articles
     id
     email
-    encrypted_password
-    reset_password_token
-    reset_password_sent_at
-    remember_created_at
     created_at
     updated_at
     roles
+    archived
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = %i[
-    articles
-    email
-    encrypted_password
-    reset_password_token
-    reset_password_sent_at
-    remember_created_at
-    roles
+  FORM_ATTRIBUTES = [
+    :email,
+    :password,
+    :password_confirmation,
+    :roles,
+    :archived
+  ].freeze
+  
+  FORM_ATTRIBUTES_NEW = [
+    :email,
+    :password,
+    :password_confirmation,
+    :roles,
+    :archived
+  ].freeze
+
+  FORM_ATTRIBUTES_EDIT = [
+    :email,
+    :roles,
+    :archived
   ].freeze
 
   # COLLECTION_FILTERS
