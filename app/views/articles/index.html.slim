@@ -1,5 +1,8 @@
 .container
+	h1 Articles
 	ul.article-list
 		- @articles.each do |article|
 			li.article-item 
 				= link_to article.title, article_path(article)
+	= link_to 'New Article', new_article_path
+= render "user_session_links"

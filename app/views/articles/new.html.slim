@@ -1,0 +1,6 @@
+.container 
+	h1 New Article
+	= form_with model: @article do |a|
+  	= a.text_field :title
+  	= a.text_area :content
+  	= a.submit
