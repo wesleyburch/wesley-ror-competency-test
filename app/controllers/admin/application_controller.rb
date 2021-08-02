@@ -11,7 +11,7 @@ module Admin
    
 
     def authenticate_admin
-      forbidden! unless current_user.role == :admin
+      forbidden! unless @user.role == :admin
     end
 
     # Override this value to specify the number of elements to display at a time

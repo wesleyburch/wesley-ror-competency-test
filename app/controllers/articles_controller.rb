@@ -1,45 +1,44 @@
 class ArticlesController < ApplicationController
-	before_action :set_article, except: [:index, :new]
+	before_action :set_article, only: [:edit, :update, :destroy, :show]
+	before_action :set_categories, only: [:new, :edit, :create]
 	before_action :authenticate_user!, except: :index
 	access all: [:index], user: {except: [:new, :edit, :create, :udpate, :destroy]}, editor: :all, admin: [:index, :show]
 
 
 	def index
-		@articles = !current_user.nil? ? Article.all : Article.last(3)
+		@articles = @user ? Article.active : Article.active.last(3)
 	end
 
 	def show
 		@article
 	end
 
-	# GET /articles/new
 	def new
 		@article = Article.new
+		@categories
 	end
 
-	# GET /articles/1/edit
 	def edit
+		@categories
 	end
 
-	# POST /articles
-	# POST /articles.json
 	def create
+		@categories
 		@article = Article.new(article_params)
 		
 		respond_to do |format|
-			if @article.save
+			if @article.save!
 					format.html { redirect_to @article, notice: 'Article was successfully created.' }
 					format.json { render :show, status: :created, location: @article }
 			else
-					format.html { render :new }
+					puts @article.errors
+					format.html { render :new, notice: @article.errors }
 					format.json { render json: @article.errors, status: :unprocessable_entity }
 			end
 		end
 		
 	end
 
-	# PATCH/PUT /articles/1
-	# PATCH/PUT /articles/1.json
 	def update
 		respond_to do |format|
 			if @article.update(article_params)
@@ -53,8 +52,6 @@ class ArticlesController < ApplicationController
 		
 	end
 
-	# DELETE /articles/1
-	# DELETE /articles/1.json
 	def destroy
 		@article.destroy
 			respond_to do |format|
@@ -65,13 +62,20 @@ class ArticlesController < ApplicationController
 
 private
 
-	# Use callbacks to share common setup or constraints between actions.
 	def set_article
 		@article = Article.find(params[:id])
 	end
 
-	def articles_params
-		params.require(:article).permit(:title, :content, :user_id, :category_id)
+	def set_categories
+		@categories = Category.all
+	end
+
+	def set_article
+		@article = Article.find(params[:id])
+	end
+
+	def article_params
+		params.require(:article).permit(:title, :content, :category_id, :user_id, :archived)
 	end
 
 end
